@@ -42,10 +42,17 @@ app.get('/customers/:id', (req, res) => {
 
 // CREATE customer
 app.post('/customers', (req, res) => {
-  const { name, grade } = req.body;
+  const { name, gender, email, address } = req.body;
   if (!name) return res.status(400).json({ error: 'Name is required' });
 
-  const customer = { id: db.nextId++, name, grade: grade || '' };
+  const customer = { 
+    id: db.nextId++, 
+    name, 
+    gender: gender || '', 
+    email: email || '', 
+    address: address || '' 
+  };
+
   db.customers.push(customer);
   saveData(db);
   res.status(201).json(customer);
@@ -54,15 +61,18 @@ app.post('/customers', (req, res) => {
 // UPDATE customer
 app.put('/customers/:id', (req, res) => {
   const id = parseInt(req.params.id);
-  const { name, grade } = req.body;
+  const { name, gender, email, address } = req.body;
   const idx = db.customers.findIndex(c => c.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Not found' });
 
   db.customers[idx] = { 
-    ...db.customers[idx], 
-    name: name ?? db.customers[idx].name, 
-    grade: grade ?? db.customers[idx].grade 
+    ...db.customers[idx],
+    name: name ?? db.customers[idx].name,
+    gender: gender ?? db.customers[idx].gender,
+    email: email ?? db.customers[idx].email,
+    address: address ?? db.customers[idx].address
   };
+
   saveData(db);
   res.json(db.customers[idx]);
 });
@@ -78,6 +88,7 @@ app.delete('/customers/:id', (req, res) => {
   res.json(removed);
 });
 
+// Root endpoint
 app.get('/', (req, res) => {
   res.send('Simple CRUD API (Customers) is running');
 });
