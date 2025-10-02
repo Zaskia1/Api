@@ -6,6 +6,104 @@
       "email": "zaskia@example.com",
       "phone": "08123456789",
       "address": "Kudus"
+    },
+    {
+      "id": 2,
+      "name": "Anggrek Putri",
+      "email": "anggrek@example.com",
+      "phone": "081222334455",
+      "address": "Jepara"
+    },
+    {
+      "id": 3,
+      "name": "Cintya Larasati",
+      "email": "cintya@example.com",
+      "phone": "081223344556",
+      "address": "Semarang"
+    },
+    {
+      "id": 4,
+      "name": "Via Rahmawati",
+      "email": "via@example.com",
+      "phone": "081334455667",
+      "address": "Pati"
+    },
+    {
+      "id": 5,
+      "name": "Nadira Aulia",
+      "email": "nadira@example.com",
+      "phone": "081445566778",
+      "address": "Kendal"
+    },
+    {
+      "id": 6,
+      "name": "Bima Prasetyo",
+      "email": "bima@example.com",
+      "phone": "081556677889",
+      "address": "Solo"
+    },
+    {
+      "id": 7,
+      "name": "Rizky Saputra",
+      "email": "rizky@example.com",
+      "phone": "081667788990",
+      "address": "Magelang"
+    },
+    {
+      "id": 8,
+      "name": "Dewi Lestari",
+      "email": "dewi@example.com",
+      "phone": "081778899001",
+      "address": "Salatiga"
+    },
+    {
+      "id": 9,
+      "name": "Aditya Nugraha",
+      "email": "aditya@example.com",
+      "phone": "081889900112",
+      "address": "Yogyakarta"
+    },
+    {
+      "id": 10,
+      "name": "Sinta Maharani",
+      "email": "sinta@example.com",
+      "phone": "081990011223",
+      "address": "Surabaya"
+    },
+    {
+      "id": 11,
+      "name": "Galih Prabowo",
+      "email": "galih@example.com",
+      "phone": "082110022334",
+      "address": "Malang"
+    },
+    {
+      "id": 12,
+      "name": "Laras Puspita",
+      "email": "laras@example.com",
+      "phone": "082220033445",
+      "address": "Blora"
+    },
+    {
+      "id": 13,
+      "name": "Farhan Ramadhan",
+      "email": "farhan@example.com",
+      "phone": "082330044556",
+      "address": "Rembang"
+    },
+    {
+      "id": 14,
+      "name": "Putri Ayu",
+      "email": "putri@example.com",
+      "phone": "082440055667",
+      "address": "Demak"
+    },
+    {
+      "id": 15,
+      "name": "Rani Oktaviani",
+      "email": "rani@example.com",
+      "phone": "082550066778",
+      "address": "Jakarta"
     }
   ]
 }
