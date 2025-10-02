@@ -1,98 +1,63 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const fs = require("fs");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'data.json');
-
 app.use(cors());
 app.use(bodyParser.json());
 
-// Load or initialize data
-function loadData() {
-  try {
-    const raw = fs.readFileSync(DATA_FILE);
-    return JSON.parse(raw);
-  } catch (err) {
-    return { customers: [], nextId: 1 };
-  }
-}
+const PORT = process.env.PORT || 3000;
 
-function saveData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
-
-let db = loadData();
+// Load db.json
+let db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
 
 // GET all customers
-app.get('/customers', (req, res) => {
+app.get("/customers", (req, res) => {
   res.json(db.customers);
 });
 
-// GET customer by id
-app.get('/customers/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const customer = db.customers.find(c => c.id === id);
-  if (!customer) return res.status(404).json({ error: 'Not found' });
-  res.json(customer);
+// GET by ID
+app.get("/customers/:id", (req, res) => {
+  const customer = db.customers.find(c => c.id == req.params.id);
+  customer ? res.json(customer) : res.status(404).json({ message: "Not found" });
 });
 
-// CREATE customer
-app.post('/customers', (req, res) => {
-  const { name, gender, email, address } = req.body;
-  if (!name) return res.status(400).json({ error: 'Name is required' });
+app.post("/customers", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
 
-  const customer = { 
-    id: db.nextId++, 
-    name, 
-    gender: gender || '', 
-    email: email || '', 
-    address: address || '' 
+  const newCustomer = {
+    id: db.nextId,
+    ...req.body,
   };
 
-  db.customers.push(customer);
-  saveData(db);
-  res.status(201).json(customer);
+  db.customers.push(newCustomer);
+  db.nextId++;
+
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
+
+  res.status(201).json(newCustomer);
 });
 
-// UPDATE customer
-app.put('/customers/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const { name, gender, email, address } = req.body;
-  const idx = db.customers.findIndex(c => c.id === id);
-  if (idx === -1) return res.status(404).json({ error: 'Not found' });
-
-  db.customers[idx] = { 
-    ...db.customers[idx],
-    name: name ?? db.customers[idx].name,
-    gender: gender ?? db.customers[idx].gender,
-    email: email ?? db.customers[idx].email,
-    address: address ?? db.customers[idx].address
-  };
-
-  saveData(db);
-  res.json(db.customers[idx]);
+// UPDATE
+app.put("/customers/:id", (req, res) => {
+  const idx = db.customers.findIndex(c => c.id == req.params.id);
+  if (idx > -1) {
+    db.customers[idx] = { ...db.customers[idx], ...req.body };
+    fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
+    res.json(db.customers[idx]);
+  } else {
+    res.status(404).json({ message: "Not found" });
+  }
 });
 
-// DELETE customer
-app.delete('/customers/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  const idx = db.customers.findIndex(c => c.id === id);
-  if (idx === -1) return res.status(404).json({ error: 'Not found' });
-
-  const removed = db.customers.splice(idx, 1)[0];
-  saveData(db);
-  res.json(removed);
-});
-
-// Root endpoint
-app.get('/', (req, res) => {
-  res.send('Simple CRUD API (Customers) is running');
+// DELETE
+app.delete("/customers/:id", (req, res) => {
+  db.customers = db.customers.filter(c => c.id != req.params.id);
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
+  res.json({ message: "Deleted" });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

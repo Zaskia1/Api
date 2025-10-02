@@ -1,7 +1,6 @@
 {
-  "name": "backend-express-api",
+  "name": "api-backend",
   "version": "1.0.0",
-  "description": "Simple CRUD API for customers using Express (in-memory + data.json persistence).",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -13,6 +12,6 @@
     "body-parser": "^1.20.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.1"
   }
 }
